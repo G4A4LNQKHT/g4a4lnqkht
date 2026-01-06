@@ -12,7 +12,10 @@ if (!$userId) {
 }
 
 // Get user details
-$userResult = $db->query("SELECT * FROM users WHERE id = $userId");
+$stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$userResult = $stmt->get_result();
 $user = $userResult ? $userResult->fetch_assoc() : null;
 
 if (!$user) {
@@ -21,7 +24,10 @@ if (!$user) {
 }
 
 // Get user's posts
-$postsResult = $db->query("SELECT * FROM posts WHERE author_id = $userId AND status = 'published' ORDER BY created_at DESC LIMIT 10");
+$stmt = $db->prepare("SELECT * FROM posts WHERE author_id = ? AND status = 'published' ORDER BY created_at DESC LIMIT 10");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$postsResult = $stmt->get_result();
 $posts = [];
 if ($postsResult) {
     while ($row = $postsResult->fetch_assoc()) {

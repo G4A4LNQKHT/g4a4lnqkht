@@ -2,8 +2,11 @@
    MAIN.JS - JAVASCRIPT CHÍNH
    ============================================ */
 
-// Global config
-const BASE_URL = '<?php echo BASE_URL; ?>';
+// Global config (set from config.js.php)
+// const BASE_URL is already defined in HTML
+if (typeof BASE_URL === 'undefined') {
+    console.error('BASE_URL not defined. Include config.js.php first.');
+}
 
 // ============================================
 // FETCH WRAPPER
